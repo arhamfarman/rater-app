@@ -9,24 +9,26 @@ import { Cabin_400Regular } from "@expo-google-fonts/cabin";
 import { Cambay_400Regular } from "@expo-google-fonts/cambay";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { SafeArea } from "./src/components/utils/safe-area.component";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 const HomeScreen = () => {
   return <RestaurantsScreens />;
 };
 
-const ProfileScreen = () => {
+const MapScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Profile Screen!</Text>
-    </View>
+    <SafeArea>
+      <Text>Map Screen!</Text>
+    </SafeArea>
   );
 };
 
 const SettingsScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <SafeArea>
       <Text>Settings!</Text>
-    </View>
+    </SafeArea>
   );
 };
 
@@ -42,9 +44,28 @@ export default function App() {
     <>
       <ThemeProvider theme={theme}>
         <NavigationContainer>
-          <Tab.Navigator>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+
+                if (route.name === "Home") {
+                  iconName = "home";
+                } else if (route.name === "Map") {
+                  iconName = "map";
+                } else if (route.name === "Settings") {
+                  iconName = "settings";
+                }
+
+                // You can return any component that you like here!
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: "tomato",
+              tabBarInactiveTintColor: "gray",
+            })}
+          >
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Map" component={MapScreen} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>
         </NavigationContainer>
